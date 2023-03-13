@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+
+        <script>
+            const _searchStrIndexOf = (str, target) => {
+                // 补全代码
+                let slen = str.length
+                let tlen = target.length
+                let i = 0
+                let count = 0
+                while(i < slen){
+                    if(str.substring(i, i+tlen) === target){
+                        count++
+                        i += tlen
+                    }else{
+                        i++
+                    }
+                }
+                console.log(count)
+            }
+            _searchStrIndexOf('sdffgfdfdgfdw', 'fd')
+        </script>
+    </body>
+</html>
