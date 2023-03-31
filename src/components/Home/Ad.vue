@@ -11,10 +11,9 @@
 <script>
 export default {
   props: {
-    adList: Array
-  }
-
-}
+    adList: Array,
+  },
+};
 </script>
 
 <style scoped>

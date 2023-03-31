@@ -5,4 +5,5 @@ let connection = mysql.createConnection({
     password:'123456',
     database:'vue_store'
 })
+
 module.exports = connection

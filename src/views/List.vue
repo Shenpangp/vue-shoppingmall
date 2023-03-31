@@ -1,14 +1,22 @@
 <template>
   <div class="list">
-    <list-header></list-header>
+    <list-header v-show="isShow"></list-header>
     <section>
       <div class="left" ref="left">
         <ul class="left-item">
-          <li :class="{active: item.id == currentIndex}" @click="handleClick(item.id)" v-for="item in leftData" :key="item.id">{{ item.name }}</li>
+          <li
+            :class="{ active: item.id == currentIndex }"
+            @click="handleClick(item.id)"
+            v-for="item in leftData"
+            :key="item.id"
+          >
+            {{ item.name }}
+          </li>
         </ul>
       </div>
       <div class="right" ref="right">
         <div>
+          <img src="../../public/images/listimg.jpeg" alt="" style="width: 100%;"/>
           <ul v-for="(item, index) in rightData" :key="index">
             <li class="shop-list" v-for="k in item" :key="k.id">
               <h2>{{ k.name }}</h2>
@@ -20,6 +28,8 @@
               </ul>
             </li>
           </ul>
+          <div style="height: 400px;">
+          </div>
         </div>
       </div>
     </section>
@@ -28,83 +38,87 @@
 </template>
 
 <script>
-import Tabbar from '@/components/Tabbar.vue'
-import ListHeader from '@/components/List/ListHeader.vue'
-import Http from '@/assets/tool/api/request.js'
-import BScroll from 'better-scroll'
+import Tabbar from "@/components/Tabbar.vue";
+import ListHeader from "@/components/List/ListHeader.vue";
+import Http from "@/assets/tool/api/request.js";
+import BScroll from "better-scroll";
 export default {
-  name: 'list',
-  data () {
+  name: "list",
+  data() {
     return {
+      isShow: true,
       //一级菜单
       leftData: [],
       rightData: [],
-      rightBScroll: '',
+      rightBScroll: "",
       allHeight: [], // 承载右侧每一块的高度值
-      scrollY:'' // 右侧滚动距离
-    }
+      scrollY: "", // 右侧滚动距离
+    };
   },
   components: { Tabbar, ListHeader },
-  async created () {
+  async created() {
     let res = await Http.$axios({
-      url:'/api/goods/list'
-    })
-    let leftArr = []
-    let rightArr = []
+      url: "/api/goods/list",
+    });
+    let leftArr = [];
+    let rightArr = [];
 
-    res.forEach(v => {
+    res.forEach((v) => {
       leftArr.push({
         id: v.id,
-        name: v.name
-      })
-      rightArr.push(v.data)
-    })
-    this.leftData = leftArr
-    this.rightData = rightArr
+        name: v.name,
+      });
+      rightArr.push(v.data);
+    });
+    this.leftData = leftArr;
+    this.rightData = rightArr;
 
-    this.$nextTick( () => {
+    this.$nextTick(() => {
       // 左侧滑动
       new BScroll(this.$refs.left, {
         // movable: true,
         zoom: true,
-        click: true  
-      })
+        click: true,
+      });
       // 右侧滑动
       this.rightBScroll = new BScroll(this.$refs.right, {
         movable: true,
         zoom: true,
-        probeType: 3
-      })
+        probeType: 3,
+        click: true,
+        bounce: false
+      });
       // 统计右侧各板块高度值，并放入数组中
       let height = 0;
-      this.allHeight.push(height)
+      this.allHeight.push(height);
       // 获取右侧每一块高度
-      let lis = this.$refs.right.getElementsByClassName('shop-list')
+      let lis = this.$refs.right.getElementsByClassName("shop-list");
       // 把dom对象转换成真正的对象
-      Array.from(lis).forEach(v => {
-        height += v.clientHeight
-        this.allHeight.push(height)
-      })
+      Array.from(lis).forEach((v) => {
+        height += v.clientHeight;
+        this.allHeight.push(height);
+      });
       // 得到右侧滚动的值
-      this.rightBScroll.on('scroll', (pos) => {
-        console.log(pos)
-        this.scrollY = Math.abs(pos.y)
-      })      
-    })
+      this.rightBScroll.on("scroll", (pos) => {
+        this.scrollY = Math.abs(pos.y);
+        // 隐藏头部搜索栏
+        this.isShow = Math.abs(pos.y) >= 44 ? false : true
+      });
+    });
   },
   computed: {
-    currentIndex(){
-      return this.allHeight.findIndex((item,index) => {
-        return this.scrollY >= item && this.scrollY < this.allHeight[index + 1]
-      })
-    }
+    currentIndex() {
+      return this.allHeight.findIndex((item, index) => {
+        return this.scrollY >= item && this.scrollY < this.allHeight[index + 1];
+      });
+    },
   },
   methods: {
-    handleClick(index){
-      this.rightBScroll.scrollTo(0, -this.allHeight[index])
-    }
-  }
-}
+    handleClick(index) {
+      this.rightBScroll.scrollTo(0, -this.allHeight[index]);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -140,7 +154,7 @@ export default {
   font-size: 14.5px;
   font-weight: lighter;
 }
-.list .left .left-item .active  {
+.list .left .left-item .active {
   width: 90px;
   border-left: 3px solid #b0352f;
   color: #b0352f;
@@ -153,7 +167,6 @@ export default {
 }
 .list .shop-list {
   text-align: center;
-
 }
 .list .shop-list h2 {
   padding: 20px 0 10px;

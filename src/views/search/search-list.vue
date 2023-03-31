@@ -3,11 +3,23 @@
     <div class="headers">
       <search-header></search-header>
       <ul>
-        <li v-for="(item, index) in searchList.data" :key="index" @click="changeIndex(index)">
-          <div :class="searchList.currentIndex == index ? 'active' : ''">{{ item.name }}</div>
+        <li
+          v-for="(item, index) in searchList.data"
+          :key="index"
+          @click="changeIndex(index)"
+        >
+          <div :class="searchList.currentIndex == index ? 'active' : ''">
+            {{ item.name }}
+          </div>
           <div class="search-filter" v-if="index != 0">
-            <i class="iconfont icon-fold" :class="item.status == 1 ? 'active' : '' "></i>
-            <i class="iconfont icon-unfold" :class="item.status == 2 ? 'active' : '' "></i>
+            <i
+              class="iconfont icon-fold"
+              :class="item.status == 1 ? 'active' : ''"
+            ></i>
+            <i
+              class="iconfont icon-unfold"
+              :class="item.status == 2 ? 'active' : ''"
+            ></i>
           </div>
         </li>
       </ul>
@@ -16,15 +28,13 @@
       <ul v-if="goodsList.length">
         <li v-for="item in goodsList" :key="item.id">
           <img v-lazy="item.imgUrl" alt="" />
-          <h3>{{item.name}}</h3>
+          <h3>{{ item.name }}</h3>
           <div>
             <div class="price">
-              <span>￥{{item.price}}</span>
+              <span>￥{{ item.price }}</span>
             </div>
-            <div class="buy-btn">
-              立即购买
-            </div>
-          </div>  
+            <div class="buy-btn">立即购买</div>
+          </div>
         </li>
       </ul>
       <h1 v-else>暂无数据...</h1>
@@ -34,12 +44,12 @@
 </template>
 
 <script>
-import SearchHeader from '@/components/Search/SearchHeader.vue'
-import Tabbar from '@/components/Tabbar.vue'
-import Http from '@/assets/tool/api/request'
+import SearchHeader from "@/components/Search/SearchHeader.vue";
+import Tabbar from "@/components/Tabbar.vue";
+import Http from "@/assets/tool/api/request";
 export default {
-  name: 'search-list',
-  data () {
+  name: "search-list",
+  data() {
     return {
       goodsList: [],
       searchList: {
@@ -50,69 +60,68 @@ export default {
           1：上箭头亮
           2：下箭头亮
           */
-          {name: '综合', key: 'zonghe'},
-          {name: '价格', status: 0, key: 'price'},
-          {name: '销量', status: 0, key: 'num'}
-        ]
-      }
-    }
+          { name: "综合", key: "zonghe" },
+          { name: "价格", status: 0, key: "price" },
+          { name: "销量", status: 0, key: "num" },
+        ],
+      },
+    };
   },
   computed: {
     orderBy() {
       // 获取当前点击的对象
-      let obj = this.searchList.data[this.searchList.currentIndex]
+      let obj = this.searchList.data[this.searchList.currentIndex];
       // 根据status判断是升序还是降序
-      let val = obj.status == 1 ? 'asc' : 'desc'
+      let val = obj.status == 1 ? "asc" : "desc";
       return {
-        [obj.key]: val
-      }
-    }
+        [obj.key]: val,
+      };
+    },
   },
-  components: { 
+  components: {
     SearchHeader,
-    Tabbar
+    Tabbar,
   },
-  created () {
-    this.getData()
+  created() {
+    this.getData();
   },
   methods: {
     getData() {
       Http.$axios({
-        url: '/api/goods/goodsList',
-        params:{
-          searchName:this.$route.query.key,
-          ...this.orderBy
-        }
-      }).then(res => {
-        this.goodsList = res
-        console.log(res)
-      })
+        url: "/api/goods/goodsList",
+        params: {
+          searchName: this.$route.query.key,
+          ...this.orderBy,
+        },
+      }).then((res) => {
+        this.goodsList = res;
+      });
     },
-    changeIndex(index){
-      this.searchList.currentIndex = index
+    changeIndex(index) {
+      this.searchList.currentIndex = index;
       // 获取点击的下标的对应数据
-      let item = this.searchList.data[index]
-      console.log(item)
+      let item = this.searchList.data[index];
+      console.log(item);
       // 未点击的status变为0
       this.searchList.data.forEach((v, i) => {
-        if(i != index){
-          v.status = 0
+        if (i != index) {
+          v.status = 0;
         }
-      })
+      });
       //  改变当前点击状态
-      if(index == this.searchList.currentIndex){
-        item.status = item.status == 1 ? 2 : 1
+      if (index == this.searchList.currentIndex) {
+        item.status = item.status == 1 ? 2 : 1;
       }
       // 发送请求进行数据排序
-      this.getData()
-    }
+      this.getData();
+    },
   },
   watch: {
-    $route(){
-      this.getData()
-    }
-  }
-}
+    $route() {
+      this.getData();
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -125,7 +134,7 @@ export default {
 }
 .headers ul {
   display: flex;
-  justify-content: space-around;  
+  justify-content: space-around;
 }
 .headers ul li {
   display: flex;
@@ -135,7 +144,7 @@ export default {
 .headers ul li .search-filter {
   display: flex;
   flex-direction: column;
-  padding: 0 2.5px
+  padding: 0 2.5px;
 }
 section {
   flex: 1;
@@ -157,7 +166,7 @@ section ul li img {
   width: 170px;
   height: 170px;
 }
-section ul li img[lazy=loading] {
+section ul li img[lazy="loading"] {
   background-color: #f7f7f7;
 }
 section ul li h3 {

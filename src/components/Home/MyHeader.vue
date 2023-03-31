@@ -1,13 +1,13 @@
 <template>
-  <div  class="header">
+  <div class="header">
     <div class="logo" @click="handleLogo">
       <img src="../../../public/images/logo.png" />
     </div>
     <div class="search" @click="handleSearch">
-      <i class="iconfont  icon-search"></i>
+      <i class="iconfont icon-search"></i>
       <span>搜您喜欢的...</span>
     </div>
-    <div  class="kefu">
+    <div class="kefu">
       <i class="iconfont icon-service"></i>
     </div>
   </div>
@@ -15,23 +15,21 @@
 
 <script>
 export default {
-  name: 'myHeader',
-  data () {
-    return {
-
-    }
+  name: "myHeader",
+  data() {
+    return {};
   },
   methods: {
     handleLogo() {
-      if(this.$route.path != '/home'){
-        this.$router.push('/home')
+      if (this.$route.path != "/home") {
+        this.$router.push("/home");
       }
     },
     handleSearch() {
-      this.$router.push('/search')
-    }
-  }
-}
+      this.$router.push("/search");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -56,22 +54,22 @@ export default {
   align-items: center;
   width: 246px;
   height: 30px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 12px;
 }
-.header i{
+.header i {
   font-size: 16px;
   padding-left: 10px;
   color: #666;
 }
 
-.header .search span{
+.header .search span {
   font-size: 16px;
   color: #666;
   padding-left: 10px;
-} 
-.header .kefu i{
+}
+.header .kefu i {
   font-size: 28px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 </style>

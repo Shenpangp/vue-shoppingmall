@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <swiper :options="swiperOption">
-      <swiper-slide v-for="item of swiperList" :key="item.id">
+      <swiper-slide v-for="(item, index) of swiperList" :key="index">
         <img class="swiper-img" :src="item.imgUrl" />
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
@@ -13,7 +13,7 @@
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
 export default {
-  name: "Swiper",
+  name: "detail-swiper",
   props: {
     swiperList: Array,
   },
@@ -22,7 +22,7 @@ export default {
       swiperOption: {
         pagination: {
           el: ".swiper-pagination",
-          clickable: true,
+          type: 'fraction',
         },
         loop: true,
         autoplay: {
@@ -44,25 +44,23 @@ export default {
 .wrapper {
   position: relative;
   width: 100%;
-  height: 185px;
+  height: 375px;
   /* margin-top: 88px; */
 }
 .swiper-container {
   width: 100%;
-  height: 185px;
+  height: 375px;
 }
 .wrapper .swiper-img {
   width: 100%;
-  height: 185px;
+  height: 375px;
 }
 .swiper-pagination {
   width: 100%;
   bottom: 0;
+  text-align: center;
+  color: #666;
+  font-size: 12px;
 }
-::v-deep .swiper-pagination-bullet-active {
-  background-color: #b0352f;
-}
-::v-deep .swiper-pagination-bullet {
-  margin: 0 3px;
-}
+
 </style>

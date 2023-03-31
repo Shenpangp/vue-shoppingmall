@@ -3,10 +3,14 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+import user from './modules/user.js'
+import cart from './modules/cart.js'
+import address from './modules/address.js'
+
 export default new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  modules: {
+    user,
+    cart,
+    address
+  }
 });

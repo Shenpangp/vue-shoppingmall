@@ -1,23 +1,104 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     name: "home",
-    component: HomeView,
+    component: () => import("@/views/Home.vue"),
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/",
+    redirect: "/home",
+  },
+  {
+    path: "/list",
+    name: "list",
+    component: () => import("@/views/List.vue"),
+  },
+  {
+    path: "/cart",
+    name: "cart",
+    component: () => import("@/views/Cart.vue"),
+  },
+  {
+    path: "/my",
+    name: "mine",
+    component: () => import("@/views/Mine.vue"),
+  },
+  {
+    path: "/search",
+    name: "search",
+    children: [
+      {
+        path: "/",
+        name: "search-section",
+        component: () => import("@/views/search/search-section.vue"),
+      },
+      {
+        path: "/searchlist",
+        name: "searchlist",
+        component: () => import("@/views/search/search-list.vue"),
+      },
+    ],
+    component: () => import("@/views/Search.vue"),
+  },
+  {
+    path: "/detail",
+    name: "detail",
+    meta: {
+      keepAlive: true
+    },
+    component: () => import("@/views/Detail.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/Login/Login.vue"),
+  },
+  {
+    path: "/userLogin",
+    name: "userLogin",
+    component: () => import("@/views/Login/UserLogin.vue"),
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("@/views/Login/Register.vue"),
+  },
+  {
+    path: "/findpwd",
+    name: "findpwd",
+    component: () => import("@/views/Login/FindPwd.vue"),
+  },
+  {
+    path: "/adress",
+    name: "adress",
+    children: [
+      {
+        path:'/',
+        name: 'index',
+        component: () => import("@/views/Adress/Adress-index.vue"),
+      },
+      {
+        path: '/add',
+        name: 'add',
+        component: () => import("@/views/Adress/Add-Adress.vue")
+      },
+      {
+        path: '/edit',
+        name: 'edit',
+        component: () => import("@/views/Adress/Edit-Adress.vue")
+      }
+  ],
+    component: () => import("@/views/Adress.vue"),
+  },
+  {
+    path: "/order",
+    name: "order",
+    component: () => import("@/views/Order.vue"),
   },
 ];
 
